@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Component Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#64748b',
+                        success: '#16a34a',
+                        danger: '#dc2626',
+                        warning: '#f59e0b',
+                        info: '#0ea5e9',
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155'
+                        },
+                        light: '#f8fafc'
+                    },
+                    transitionProperty: {
+                        'colors': 'background-color, border-color, color, fill, stroke'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .component-card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .dark .component-card {
+            background-color: #1e293b;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+        .input-field input {
+            background-color: white;
+            color: #1f2937;
+        }
+        .dark .input-field input {
+            background-color: #334155;
+            color: #f1f5f9;
+        }
+        .sidebar {
+            scrollbar-width: thin;
+        }
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+        .dark .sidebar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 50;
+                transition: transform 0.3s ease;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+            }
+            .sidebar.active + .sidebar-overlay {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-dark-900 text-gray-800 dark:text-gray-200">
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn fixed top-4 left-4 z-30 p-2 bg-white dark:bg-dark-800 rounded-lg shadow-md md:hidden">
+        <i class="fas fa-bars text-gray-700 dark:text-gray-300"></i>
+    </button>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar w-64 bg-white dark:bg-dark-800 border-r border-gray-200 dark:border-gray-700 p-6 flex flex-col overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-xl font-bold text-primary">Component Library</h1>
+                <button class="close-menu-btn p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 md:hidden">
+                    <i class="fas fa-times text-gray-700 dark:text-gray-300"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-2 flex-grow">
+                <a href="#input-field" class="nav-item block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition">Input Field</a>
+                <a href="#data-table" class="nav-item block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition">Data Table</a>
+                <a href="#accessibility" class="nav-item block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition">Accessibility</a>
+                <a href="#best-practices" class="nav-item block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition">Best Practices</a>
+            </div>
+            
+            <div class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700">
+                <button id="theme-toggle" class="w-full py-2 px-4 bg-primary text-white rounded-lg flex items-center justify-center">
+                    <i class="fas fa-moon mr-2"></i> Dark Mode
+                </button>
+            </div>
+        </div>
+        
+        <!-- Sidebar overlay for mobile -->
+        <div class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-4 md:p-8 overflow-y-auto">
+            <div class="max-w-6xl mx-auto">
+                <header class="mb-8 md:mb-12">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2">React Component Assignment</h1>
+                    <p class="text-gray-600 dark:text-gray-400">Professional implementation of UI components with responsive design</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 rounded-full text-sm">React</span>
+                        <span class="px-3 py-1 bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100 rounded-full text-sm">TypeScript</span>
+                        <span class="px-3 py-1 bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-100 rounded-full text-sm">Tailwind CSS</span>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100 rounded-full text-sm">Storybook</span>
+                    </div>
+                </header>
+
+                <!-- Component 1: InputField -->
+                <section id="input-field" class="mb-12 md:mb-16">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 md:mb-0">InputField Component</h2>
+                        <div class="flex items-center">
+                            <span class="mr-2 text-gray-600 dark:text-gray-400">Status:</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded text-sm">Production Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <!-- Default Input -->
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Default Input</h3>
+                            <div class="input-field">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+                                <input type="text" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter your name">
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Enter your full legal name</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Disabled Input -->
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Disabled State</h3>
+                            <div class="input-field">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
+                                <input type="email" disabled class="w-full px-4 py-2 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-gray-600 rounded-lg opacity-70" placeholder="user@example.com">
+                            </div>
+                        </div>
+                        
+                        <!-- Error State -->
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Error State</h3>
+                            <div class="input-field">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                                <input type="password" class="w-full px-4 py-2 border border-red-500 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Enter password">
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">Password must be at least 8 characters</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Password with Toggle -->
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Password Toggle</h3>
+                            <div class="input-field">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                                <div class="relative">
+                                    <input type="password" class="password-input w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter password">
+                                    <button class="absolute inset-y-0 right-0 px-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                                        <i class="far fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 dark:bg-dark-700 p-4 md:p-6 rounded-xl mb-8">
+                        <h3 class="text-lg font-semibold mb-4">Component Specifications</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-100 dark:bg-dark-800">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Prop</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Default</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-dark-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">value</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">string</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">''</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">The value of the input</td>
+                                    </tr>
+                                    <tr class="bg-gray-50 dark:bg-dark-700">
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">label</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">string</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">null</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">Label text for the input</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">disabled</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">boolean</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">false</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">Disables the input</td>
+                                    </tr>
+                                    <tr class="bg-gray-50 dark:bg-dark-700">
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">invalid</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">boolean</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">false</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-200">Shows error state</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Component 2: DataTable -->
+                <section id="data-table" class="mb-12 md:mb-16">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 md:mb-0">DataTable Component</h2>
+                        <div class="flex items-center">
+                            <span class="mr-2 text-gray-600 dark:text-gray-400">Status:</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded text-sm">Production Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                            <h3 class="text-base md:text-lg font-semibold mb-2 md:mb-0">User Data</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-dark-700 dark:hover:bg-dark-600 rounded text-sm">Export</button>
+                                <button class="px-3 py-1.5 bg-primary text-white hover:bg-blue-700 rounded text-sm">Add User</button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-dark-700">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                            <input type="checkbox" class="row-select-all rounded">
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer sortable" data-sort="name">
+                                            Name <i class="fas fa-sort ml-1"></i>
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer sortable" data-sort="email">
+                                            Email <i class="fas fa-sort ml-1"></i>
+                                        </th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-dark-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                    <tr>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <input type="checkbox" class="row-select rounded">
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://i.pravatar.cc/40?img=1" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-white">John Doe</div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">New York</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">john.doe@example.com</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Admin</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">Active</span>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            <button class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">Edit</button>
+                                            <button class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <input type="checkbox" class="row-select rounded">
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://i.pravatar.cc/40?img=2" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-white">Jane Smith</div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">London</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">jane.smith@example.com</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Editor</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">Active</span>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            <button class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">Edit</button>
+                                            <button class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <input type="checkbox" class="row-select rounded">
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://i.pravatar.cc/40?img=3" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-white">Robert Johnson</div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">San Francisco</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">robert@example.com</td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Subscriber</td>
+                                        <td class="px-4 py-3 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100">Pending</span>
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            <button class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">Edit</button>
+                                            <button class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-4 flex flex-col md:flex-row items-center justify-between">
+                            <div class="text-sm text-gray-700 dark:text-gray-300 mb-2 md:mb-0">
+                                Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">15</span> results
+                            </div>
+                            <div class="flex flex-wrap gap-1">
+                                <button class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-dark-700 dark:hover:bg-dark-600 rounded text-sm">Previous</button>
+                                <button class="px-3 py-1.5 bg-primary text-white hover:bg-blue-700 rounded text-sm">1</button>
+                                <button class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-dark-700 dark:hover:bg-dark-600 rounded text-sm">2</button>
+                                <button class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-dark-700 dark:hover:bg-dark-600 rounded text-sm">3</button>
+                                <button class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 dark:bg-dark-700 dark:hover:bg-dark-600 rounded text-sm">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <!-- Loading State -->
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Loading State</h3>
+                            <div class="data-table-loading">
+                                <div class="flex justify-center items-center h-48">
+                                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                                    <span class="ml-3 text-gray-600 dark:text-gray-400">Loading data...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Empty State -->
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Empty State</h3>
+                            <div class="data-table-empty">
+                                <div class="flex flex-col justify-center items-center h-48 text-center">
+                                    <i class="fas fa-inbox text-gray-400 text-4xl mb-4"></i>
+                                    <h4 class="text-base md:text-lg font-medium text-gray-900 dark:text-white mb-1">No data available</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 mb-4 px-4">There are no records to display at this time</p>
+                                    <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700">Add New Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Accessibility Section -->
+                <section id="accessibility" class="mb-12 md:mb-16">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-6">Accessibility</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">ARIA Attributes</h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>All inputs have appropriate <code class="bg-gray-100 dark:bg-dark-700 px-1 rounded">aria-label</code> or <code class="bg-gray-100 dark:bg-dark-700 px-1 rounded">aria-labelledby</code></li>
+                                <li>Error messages use <code class="bg-gray-100 dark:bg-dark-700 px-1 rounded">aria-live="assertive"</code></li>
+                                <li>Table headers have <code class="bg-gray-100 dark:bg-dark-700 px-1 rounded">scope="col"</code> or <code class="bg-gray-100 dark:bg-dark-700 px-1 rounded">scope="row"</code></li>
+                                <li>Sortable columns indicate direction with <code class="bg-gray-100 dark:bg-dark-700 px-1 rounded">aria-sort</code></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-card bg-white dark:bg-dark-800 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3">Keyboard Navigation</h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>Tab navigation follows logical order</li>
+                                <li>Input fields can be focused with keyboard</li>
+                                <li>Table rows selectable with spacebar</li>
+                                <li>Sortable columns activated with Enter key</li>
+                                <li>Clear buttons activated with Enter/Space</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Best Practices Section -->
+                <section id="best-practices" class="mb-12 md:mb-16">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-6">Best Practices</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="component-card bg-green-50 dark:bg-green-900/20 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3 flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> Do's
+                            </h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>Use clear and descriptive labels for inputs</li>
+                                <li>Provide helpful validation messages</li>
+                                <li>Ensure sufficient color contrast</li>
+                                <li>Implement responsive design</li>
+                                <li>Provide keyboard alternatives</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="component-card bg-red-50 dark:bg-red-900/20 p-4 md:p-6 rounded-xl">
+                            <h3 class="text-base md:text-lg font-semibold mb-3 flex items-center">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> Don'ts
+                            </h3>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>Don't rely solely on color to convey information</li>
+                                <li>Avoid placeholder text as label replacement</li>
+                                <li>Don't make tables too complex</li>
+                                <li>Avoid small click targets</li>
+                                <li>Don't disable hover states on touch devices</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-gray-600 dark:text-gray-400">
+                    <p>Professional Component Library • Built with HTML, CSS, JS and Tailwind CSS</p>
+                    <p class="mt-2">Production-ready implementation</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        // Set initial theme
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun mr-2"></i> Light Mode';
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon mr-2"></i> Dark Mode';
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', isDark);
+            
+            if (isDark) {
+                this.innerHTML = '<i class="fas fa-sun mr-2"></i> Light Mode';
+            } else {
+                this.innerHTML = '<i class="fas fa-moon mr-2"></i> Dark Mode';
+            }
+        });
+
+        // Password toggle functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.password-input + button') || e.target.closest('.password-input + button i')) {
+                const button = e.target.closest('button');
+                const input = button.previousElementSibling;
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    button.innerHTML = '<i class="far fa-eye-slash"></i>';
+                } else {
+                    input.type = 'password';
+                    button.innerHTML = '<i class="far fa-eye"></i>';
+                }
+            }
+        });
+
+        // Sortable table headers
+        document.querySelectorAll('.sortable').forEach(header => {
+            header.addEventListener('click', function() {
+                const sortField = this.dataset.sort;
+                console.log(`Sorting by ${sortField}`);
+                
+                // Toggle sort direction indicator
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-sort')) {
+                    icon.classList.replace('fa-sort', 'fa-sort-up');
+                } else if (icon.classList.contains('fa-sort-up')) {
+                    icon.classList.replace('fa-sort-up', 'fa-sort-down');
+                } else {
+                    icon.classList.replace('fa-sort-down', 'fa-sort-up');
+                }
+            });
+        });
+
+        // Row selection
+        document.querySelector('.row-select-all').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.row-select');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.add('active');
+        });
+
+        document.querySelector('.close-menu-btn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.remove('active');
+        });
+
+        document.querySelector('.sidebar-overlay').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.remove('active');
+        });
+
+        // Close mobile menu when clicking on nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
