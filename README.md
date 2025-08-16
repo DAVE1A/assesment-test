@@ -1,61 +1,36 @@
-Professional Component Library
+🌟 Professional Component Library
 
-A modern, responsive component library built with HTML, CSS, JavaScript, Tailwind CSS, and Storybook. This project demonstrates reusable UI components with best practices, accessibility support, and interactive features.
+A modern, responsive component library built with HTML, CSS, JavaScript, Tailwind CSS, and Storybook. This project demonstrates reusable UI components with accessibility, interactivity, and best practices.
 
-Project Structure:
 
-stories/ - Storybook component stories
+stories/        - Storybook component stories
+src/            - Source files (HTML, CSS, JS)
+.storybook/     - Storybook configuration
+package.json    - Project dependencies and scripts
+index.html      - Main HTML file
+README.md       - Project documentation
 
-src/ - Source files (HTML, CSS, JS)
 
-.storybook/ - Storybook configuration
+🌟 Professional Component Library
 
-package.json - Project dependencies and scripts
+A modern, responsive component library built with HTML, CSS, JavaScript, Tailwind CSS, and Storybook. This project demonstrates reusable UI components with accessibility, interactivity, and best practices.
 
-index.html - Main HTML file
+🚀 Getting Started:
+Install dependencies: npm install
 
-README.md - Project documentation
+Run Storybook locally:npm run storybook
 
-Features:
 
-InputField Component: Default, disabled, error, and password toggle states
+Build Storybook for deployment: npm run build-storybook
 
-DataTable Component: Sorting, row selection, loading state, empty state, and pagination
 
-Accessibility: ARIA attributes, keyboard navigation
+🌐 Deployment
 
-Dark Mode Toggle: Persistent theme using localStorage
+Deploy Storybook using Vercel for a live preview
 
-Responsive Design: Works across mobile and desktop devices
+Share the Vercel link along with your GitHub repository
 
-Best Practices: Clear labeling, proper validation, sufficient color contrast, and reusable components
-
-Getting Started:
-
-Install dependencies by running:
-npm install
-
-Run Storybook locally:
-npm run storybook
-
-Build Storybook for deployment:
-npm run build-storybook
-
-Deployment:
-
-Deploy Storybook using Vercel for live preview
-
-Share the Vercel preview link along with your GitHub repository link
-
-Notes:
-
-This project is production-ready for UI component previews
-
-Components are built to be accessible and reusable
-
-Dark mode preference is stored in the browser for a consistent user experience
-
-Tech Stack:
+🛠 Tech Stack
 
 HTML
 
@@ -69,6 +44,6 @@ Storybook
 
 Font Awesome (icons)
 
-Author:
+✨ Author
 
-[Your Name]
+Adedeji David Toluwani
